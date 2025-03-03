@@ -1071,11 +1071,15 @@ def write_log(arg_timestamp_log, url_path, shortform
             try:
                 with open(log_path, encoding="utf-8") as f:
                     index_line = [l for l in f.readlines() if l.startswith('[ ')]
-                    index_last_tmp = index_line[-1].split('[ ')[1].split(' ]')[0]
-                    if index_last_tmp.isdigit():
-                        index_last = int(index_last_tmp)
-                    for l in index_line:
-                        existing_indexes.append(l.split('[ ')[1].split(' ] Pin Id: ')[1].strip())
+                    if index_line:
+                        index_last_tmp = index_line[-1].split('[ ')[1].split(' ]')[0]
+                        if index_last_tmp.isdigit():
+                            index_last = int(index_last_tmp)
+                        for l in index_line:
+                            existing_indexes.append(l.split('[ ')[1].split(' ] Pin Id: ')[1].strip())
+                    else:
+                        index_last = 0
+                        existing_indexes = []
             except (FileNotFoundError, OSError, KeyError, TypeError):
                 cprint(''.join([ HIGHER_YELLOW, '%s' % ('\nWrite log increment from last log stored index failed. Fallback to -lt\n\n') ]), attrs=BOLD_ONLY, end='' )  
                 log_timestamp = 'log-pinterest-downloader_' + datetime.now().strftime('%Y-%m-%d %H.%M.%S')
