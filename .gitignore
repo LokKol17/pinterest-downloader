@@ -130,3 +130,4 @@ cython_debug/
 *.iml
 *.iws
 *.ipr
+/images/
